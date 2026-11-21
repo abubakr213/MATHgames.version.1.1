@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Games — ST Admin</title>
+    <link rel="stylesheet" href="st-admin.css">
+</head>
+<body>
+
+<div class="login-screen" id="loginScreen">
+    <div class="login-card">
+        <div class="crown">👑</div>
+        <h1>ST ADMIN</h1>
+        <p>Панель владельца Math Games</p>
+
+        <input id="login" placeholder="Логин">
+        <input id="password" type="password" placeholder="Пароль">
+
+        <button onclick="loginOwner()">Войти</button>
+        <p id="loginError"></p>
+    </div>
+</div>
+
+<div class="app" id="adminApp" style="display:none">
+
+    <aside class="sidebar">
+        <div class="logo">👑 ST ADMIN</div>
+
+        <button onclick="showPage('dashboard')">🏠 Главная</button>
+        <button onclick="showPage('admins')">🛡️ Администраторы</button>
+        <button onclick="showPage('players')">👥 Игроки</button>
+        <button onclick="showPage('shop')">🛒 Магазин</button>
+        <button onclick="showPage('promos')">🎁 Промокоды</button>
+        <button onclick="showPage('limits')">⚙️ Глобальные лимиты</button>
+        <button onclick="showPage('logs')">📋 Журнал действий</button>
+
+        <button class="logout" onclick="logoutOwner()">🚪 Выйти</button>
+    </aside>
+
+    <main class="main">
+
+        <header>
+            <div>
+                <h1 id="pageTitle">Главная</h1>
+                <p>Управление всей системой Math Games</p>
+            </div>
+            <div class="owner-badge">👑 OWNER</div>
+        </header>
+
+        <!-- DASHBOARD -->
+        <section class="page active" id="dashboard">
+            <div class="stats">
+                <div class="stat">
+                    <span>👥 Игроки</span>
+                    <h2 id="playersCount">0</h2>
+                </div>
+                <div class="stat">
+                    <span>🛡️ Администраторы</span>
+                    <h2 id="adminsCount">0</h2>
+                </div>
+                <div class="stat">
+                    <span>🛒 Товары</span>
+                    <h2 id="productsCount">0</h2>
+                </div>
+                <div class="stat">
+                    <span>🎁 Промокоды</span>
+                    <h2 id="promosCount">0</h2>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>Состояние системы</h2>
+                <p id="maintenanceStatus">Режим обслуживания: выключен</p>
+                <p id="systemStatus">Система работает</p>
+            </div>
+        </section>
+
+        <!-- ADMINS -->
+        <section class="page" id="admins">
+            <div class="panel">
+                <h2>Создать администратора</h2>
+
+                <input id="newAdminLogin" placeholder="Логин">
+                <input id="newAdminPassword" placeholder="Пароль">
+
+                <h3>Разрешения</h3>
+
+                <div class="permissions">
+                    <label><input type="checkbox" id="permPlayers"> Игроки</label>
+                    <label><input type="checkbox" id="permShop"> Магазин</label>
+                    <label><input type="checkbox" id="permPromos"> Промокоды</label>
+                    <label><input type="checkbox" id="permLogs"> Журнал</label>
+                </div>
+
+                <button onclick="createAdmin()">Создать администратора</button>
+            </div>
+
+            <div class="panel">
+                <h2>Список администраторов</h2>
+                <div id="adminsList"></div>
+            </div>
+        </section>
+
+        <!-- PLAYERS -->
+        <section class="page" id="players">
+            <div class="panel">
+                <h2>Управление игроками</h2>
+                <input id="playerSearch" placeholder="Поиск игрока..." oninput="renderPlayers()">
+                <div id="playersList"></div>
+            </div>
+        </section>
+
+        <!-- SHOP -->
+        <section class="page" id="shop">
+            <div class="panel">
+                <h2>Добавить товар</h2>
+                <input id="productName" placeholder="Название товара">
+                <input id="productPrice" type="number" placeholder="Цена GOLD">
+                <input id="productIcon" placeholder="Иконка, например 💎">
+                <button onclick="addProduct()">Добавить товар</button>
+            </div>
+
+            <div class="panel">
+                <h2>Товары магазина</h2>
+                <div id="shopList"></div>
+            </div>
+        </section>
+
+        <!-- PROMOS -->
+        <section class="page" id="promos">
+            <div class="panel">
+                <h2>Создать промокод</h2>
+                <input id="promoCode" placeholder="Например: GOLD2026">
+                <input id="promoReward" type="number" placeholder="Награда GOLD">
+                <input id="promoUses" type="number" placeholder="Количество активаций">
+                <button onclick="addPromo()">Создать промокод</button>
+            </div>
+
+            <div class="panel">
+                <h2>Список промокодов</h2>
+                <div id="promosList"></div>
+            </div>
+        </section>
+
+        <!-- LIMITS -->
+        <section class="page" id="limits">
+            <div class="panel">
+                <h2>Глобальные лимиты</h2>
+                <p>Максимальные значения для системы.</p>
+
+                <div class="limit-grid">
+                    <label>Максимум GOLD
+                        <input id="maxGold" type="number">
+                    </label>
+
+                    <label>Максимум XP
+                        <input id="maxXP" type="number">
+                    </label>
+
+                    <label>Максимум XD
+                        <input id="maxXD" type="number">
+                    </label>
+
+                    <label>Максимальный уровень
+                        <input id="maxLevel" type="number">
+                    </label>
+
+                    <label>Максимальная награда промокода
+                        <input id="maxPromoReward" type="number">
+                    </label>
+
+                    <label>Максимум активаций промокода
+                        <input id="maxPromoUses" type="number">
+                    </label>
+
+                    <label>Максимальная цена товара
+                        <input id="maxProductPrice" type="number">
+                    </label>
+
+                    <label>Максимум товаров
+                        <input id="maxProducts" type="number">
+                    </label>
+
+                    <label>Максимальный множитель XP
+                        <input id="maxXpMultiplier" type="number" step="0.1">
+                    </label>
+
+                    <label>Максимальный множитель GOLD
+                        <input id="maxGoldMultiplier" type="number" step="0.1">
+                    </label>
+                </div>
+
+                <h2>Настройки игры</h2>
+
+                <div class="limit-grid">
+                    <label>Множитель XP
+                        <input id="xpMultiplier" type="number" step="0.1">
+                    </label>
+
+                    <label>Множитель GOLD
+                        <input id="goldMultiplier" type="number" step="0.1">
+                    </label>
+
+                    <label>Длительность буста (часы)
+                        <input id="boostHours" type="number">
+                    </label>
+                </div>
+
+                <label class="maintenance">
+                    <input type="checkbox" id="maintenanceMode">
+                    Включить режим обслуживания
+                </label>
+
+                <button onclick="saveSettings()">💾 Сохранить настройки</button>
+                <p id="settingsMessage"></p>
+            </div>
+        </section>
+
+        <!-- LOGS -->
+        <section class="page" id="logs">
+            <div class="panel">
+                <h2>Журнал действий</h2>
+                <div id="logsList"></div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<!-- PLAYER EDIT MODAL -->
+<div class="modal" id="playerModal">
+    <div class="modal-card">
+        <h2>Изменить игрока</h2>
+        <p id="editingPlayer"></p>
+
+        <input id="editGold" type="number" placeholder="GOLD">
+        <input id="editXP" type="number" placeholder="XP">
+        <input id="editXD" type="number" placeholder="XD">
+        <input id="editLevel" type="number" placeholder="Уровень">
+
+        <button onclick="savePlayer()">Сохранить</button>
+        <button class="secondary" onclick="closeModal()">Отмена</button>
+    </div>
+</div>
+
+<script src="st-admin.js"></script>
+</body>
+</html> 

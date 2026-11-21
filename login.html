@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Math Games — Вход</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-body">
+  <div class="login-card">
+    <div class="logo">∑</div>
+    <p class="eyebrow">MATH GAMES</p>
+    <h1 id="formTitle">Добро пожаловать!</h1>
+    <p class="muted">Учись, играй и открывай новые уровни.</p>
+
+    <form id="loginForm">
+      <label>Логин
+        <input id="login" type="text" placeholder="Твой логин" required>
+      </label>
+      <label>Пароль
+        <input id="password" type="password" placeholder="Твой пароль" required>
+      </label>
+      <button class="primary full" type="submit">Войти</button>
+    </form>
+
+    <button id="registerBtn" class="secondary full">Создать аккаунт</button>
+    <p id="message" class="message"></p>
+  </div>
+
+  <script>
+    const USERS_KEY = "math_games_users";
+    const ACTIVE_KEY = "math_games_active_login";
+
+    function getUsers() {
+      try {
+        const data = JSON.parse(localStorage.getItem(USERS_KEY) || "[]");
+        return Array.isArray(data) ? data : Object.values(data);
+      } catch {
+        return [];
+      }
+    }
+
+    function saveUsers(users) {
+      localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    }
+
+    let users = getUsers();
+
+    // Демо-аккаунт создаётся только при первом запуске.
+    if (users.length === 0) {
+      users.push({
+        username: "Player",
+        login: "player",
+        password: "player123",
+        gold: 1000,
+        xp: 0,
+        xd: 0,
+        level: 1,
+        completed: [],
+        correct: 0,
+        streak: 0,
+        inventory: [],
+        avatar: "P"
+      });
+      saveUsers(users);
+    }
+
+    // Вход
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const loginValue = document.getElementById("login").value.trim();
+      const passwordValue = document.getElementById("password").value;
+
+      // ADMIN
+      if (loginValue === "AdMIN") {
+        location.href = "admin.html";
+        return;
+      }
+
+      // ST ADMIN
+      if (loginValue === "ADMInStS") {
+        location.href = "st-admin.html";
+        return;
+      }
+
+      users = getUsers();
+
+      const user = users.find(u =>
+        String(u.login).toLowerCase() === loginValue.toLowerCase() &&
+        u.password === passwordValue
+      );
+
+      if (!user) {
+        document.getElementById("message").textContent =
+          "Неверный логин или пароль.";
+        return;
+      }
+
+      localStorage.setItem(ACTIVE_KEY, user.login);
+      location.href = "index.html";
+    });
+
+    // Регистрация
+    document.getElementById("registerBtn").addEventListener("click", function() {
+      const login = prompt("Придумай логин:");
+      if (!login) return;
+
+      const cleanLogin = login.trim().toLowerCase();
+
+      if (cleanLogin.length < 3) {
+        alert("Логин должен содержать минимум 3 символа.");
+        return;
+      }
+
+      // Запрещаем регистрацию специальных логинов.
+      if (["admin", "adminsts"].includes(cleanLogin)) {
+        alert("Этот логин зарезервирован.");
+        return;
+      }
+
+      users = getUsers();
+
+      if (users.some(u => String(u.login).toLowerCase() === cleanLogin)) {
+        alert("Этот логин уже занят.");
+        return;
+      }
+
+      const password = prompt("Придумай пароль (минимум 6 символов):");
+
+      if (!password || password.length < 6) {
+        alert("Пароль должен содержать минимум 6 символов.");
+        return;
+      }
+
+      users.push({
+        username: login.trim(),
+        login: cleanLogin,
+        password,
+        gold: 1000,
+        xp: 0,
+        xd: 0,
+        level: 1,
+        completed: [],
+        correct: 0,
+        streak: 0,
+        inventory: [],
+        avatar: login.trim()[0].toUpperCase()
+      });
+
+      saveUsers(users);
+      localStorage.setItem(ACTIVE_KEY, cleanLogin);
+      location.href = "index.html";
+    });
+  </script>
+</body>
+</html>

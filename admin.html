@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Games | Admin Panel</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+    <div id="loginScreen" class="login-screen">
+        <form id="loginForm" class="login-card">
+            <div class="logo">⚡</div>
+            <h1>Admin Panel</h1>
+            <p>Вход администратора</p>
+
+            <input id="adminLogin" placeholder="Логин" required>
+            <input id="adminPassword" type="password"
+                   placeholder="Пароль" required>
+
+            <button type="submit">Войти</button>
+            <p id="loginError" class="error"></p>
+        </form>
+    </div>
+
+    <div id="dashboard" class="dashboard hidden">
+
+        <aside class="sidebar">
+            <h2>⚡ Math Games</h2>
+            <p class="subtitle">ADMIN PANEL</p>
+
+            <nav>
+                <button data-page="overview" class="active">Обзор</button>
+                <button data-page="players">Игроки</button>
+                <button data-page="shop">Магазин</button>
+                <button data-page="promos">Промокоды</button>
+                <button data-page="logs">Журнал</button>
+            </nav>
+
+            <button id="logout" class="logout">Выйти</button>
+        </aside>
+
+        <main class="main">
+            <header>
+                <div>
+                    <small>УПРАВЛЕНИЕ САЙТОМ</small>
+                    <h1 id="pageTitle">Обзор</h1>
+                </div>
+                <span class="admin-badge">⚡ ADMIN</span>
+            </header>
+
+            <section id="overview" class="page">
+                <div class="stats">
+                    <div class="stat">
+                        <p>Игроки</p>
+                        <h2 id="playerCount">0</h2>
+                    </div>
+                    <div class="stat">
+                        <p>Товары</p>
+                        <h2 id="productCount">0</h2>
+                    </div>
+                    <div class="stat">
+                        <p>Промокоды</p>
+                        <h2 id="promoCount">0</h2>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h2>Добро пожаловать!</h2>
+                    <p>Здесь ты можешь управлять игроками и магазином.</p>
+                </div>
+            </section>
+
+            <section id="players" class="page hidden">
+                <div class="panel">
+                    <div class="section-header">
+                        <h2>Игроки</h2>
+                        <input id="playerSearch" placeholder="Поиск игрока...">
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Логин</th>
+                                    <th>GOLD</th>
+                                    <th>XP</th>
+                                    <th>XD</th>
+                                    <th>Уровень</th>
+                                    <th>Действие</th>
+                                </tr>
+                            </thead>
+                            <tbody id="playersTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="shop" class="page hidden">
+                <div class="panel">
+                    <h2>Добавить товар</h2>
+
+                    <form id="productForm" class="form">
+                        <input id="productName" placeholder="Название" required>
+                        <input id="productPrice" type="number"
+                               placeholder="Цена GOLD" min="0" required>
+                        <input id="productCategory" placeholder="Категория">
+                        <input id="productIcon" placeholder="Иконка" value="🎁">
+                        <button>Добавить товар</button>
+                    </form>
+                </div>
+
+                <div class="panel">
+                    <h2>Товары магазина</h2>
+                    <div id="productsList"></div>
+                </div>
+            </section>
+
+            <section id="promos" class="page hidden">
+                <div class="panel">
+                    <h2>Создать промокод</h2>
+
+                    <form id="promoForm" class="form">
+                        <input id="promoCode" placeholder="Код" required>
+                        <input id="promoReward" type="number"
+                               placeholder="Награда GOLD" min="1" required>
+                        <input id="promoLimit" type="number"
+                               placeholder="Лимит активаций" min="1" value="1">
+                        <button>Создать промокод</button>
+                    </form>
+                </div>
+
+                <div class="panel">
+                    <h2>Промокоды</h2>
+                    <div id="promosList"></div>
+                </div>
+            </section>
+
+            <section id="logs" class="page hidden">
+                <div class="panel">
+                    <h2>История действий</h2>
+                    <div id="logsList"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="editModal" class="modal hidden">
+        <form id="editForm" class="modal-card">
+            <button type="button" id="closeModal" class="close">×</button>
+            <h2>Изменить игрока</h2>
+
+            <input id="editLogin" type="hidden">
+
+            <label>GOLD</label>
+            <input id="editGold" type="number" min="0">
+
+            <label>XP</label>
+            <input id="editXP" type="number" min="0">
+
+            <label>XD</label>
+            <input id="editXD" type="number" min="0">
+
+            <label>Уровень</label>
+            <input id="editLevel" type="number" min="1">
+
+            <button>Сохранить изменения</button>
+        </form>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

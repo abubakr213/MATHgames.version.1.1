@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Math Games</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#">∑ Math Games</a>
+
+  <div class="top-actions">
+    <span class="gold-pill">🪙 <b id="gold">0</b> GOLD</span>
+
+    <select id="language">
+      <option value="ru">Русский</option>
+      <option value="uz">O‘zbekcha</option>
+    </select>
+
+    <button id="themeBtn" class="icon-btn">☼</button>
+    <button id="logoutBtn" class="secondary">Выйти</button>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="user-mini">
+      <div class="avatar" id="avatarMini">P</div>
+      <div>
+        <b id="sideName">Player</b>
+        <small id="sideRank">NOOB · Уровень 1</small>
+      </div>
+    </div>
+
+    <nav>
+      <button class="nav active" data-page="home">⌂ Главная</button>
+      <button class="nav" data-page="adventure">⚔ Adventure</button>
+      <button class="nav" data-page="levels">▦ Уровни</button>
+      <button class="nav" data-page="ranking">♛ Рейтинг</button>
+      <button class="nav" data-page="profile">◉ Профиль</button>
+      <button class="nav" data-page="statistics">▤ Статистика</button>
+      <button class="nav" data-page="shop">🛍 Магазин</button>
+    </nav>
+
+    <div class="sidebar-bottom">Math Games</div>
+  </aside>
+
+  <main class="content">
+
+    <!-- ГЛАВНАЯ -->
+    <section id="home" class="page active">
+      <div class="welcome">
+        <div>
+          <p class="eyebrow">MATH GAMES</p>
+          <h1>С возвращением!</h1>
+          <p id="welcomeName">Продолжай развиваться!</p>
+        </div>
+        <div class="hero-mark">∑</div>
+      </div>
+
+      <div class="stats-grid">
+        <article class="stat-card">
+          <span>⭐ XP</span>
+          <strong id="xp">0</strong>
+          <small>Опыт</small>
+        </article>
+
+        <article class="stat-card">
+          <span>💎 XD</span>
+          <strong id="xd">0</strong>
+          <small>Кристаллы</small>
+        </article>
+
+        <article class="stat-card">
+          <span>🔥</span>
+          <strong id="streak">0</strong>
+          <small>Дней подряд</small>
+        </article>
+
+        <article class="stat-card">
+          <span>🏆</span>
+          <strong id="completed">0</strong>
+          <small>Пройдено уровней</small>
+        </article>
+      </div>
+
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">LEARN & PLAY</p>
+          <h2>Предметы</h2>
+        </div>
+      </div>
+
+      <div class="subject-grid" id="subjectGrid"></div>
+
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">YOUR JOURNEY</p>
+          <h2>Adventure</h2>
+        </div>
+      </div>
+
+      <div class="adventure-grid">
+        <button class="adventure-card" data-area="mountains">
+          <span>🏔️</span>
+          <b>Mountains</b>
+          <small>Математические испытания</small>
+        </button>
+
+        <button class="adventure-card" data-area="forest">
+          <span>🌲</span>
+          <b>Magic Forest</b>
+          <small>Логические испытания</small>
+        </button>
+      </div>
+    </section>
+
+    <!-- УРОВНИ -->
+    <section id="levels" class="page">
+      <p class="eyebrow">PROGRESSION</p>
+      <h1>Уровни</h1>
+      <p class="muted">Проходи задания и открывай новые уровни.</p>
+      <div id="levelGrid" class="level-grid"></div>
+    </section>
+
+    <!-- ADVENTURE -->
+    <section id="adventure" class="page">
+      <p class="eyebrow">EXPLORE</p>
+      <h1>Adventure</h1>
+      <div class="adventure-grid">
+        <button class="adventure-card" data-area="mountains">
+          <span>🏔️</span><b>Mountains</b>
+        </button>
+        <button class="adventure-card" data-area="forest">
+          <span>🌲</span><b>Magic Forest</b>
+        </button>
+      </div>
+      <div id="adventureMessage" class="notice">Выбери область.</div>
+    </section>
+
+    <!-- РЕЙТИНГ -->
+    <section id="ranking" class="page">
+      <p class="eyebrow">LEADERBOARD</p>
+      <h1>Рейтинг игроков</h1>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>№</th><th>Игрок</th><th>Уровень</th><th>XP</th><th>XD</th>
+            </tr>
+          </thead>
+          <tbody id="rankingRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ПРОФИЛЬ -->
+    <section id="profile" class="page">
+      <p class="eyebrow">ACCOUNT</p>
+      <h1>Профиль</h1>
+
+      <div class="panel profile-panel">
+        <div class="profile-head">
+          <div class="avatar big" id="profileAvatar">P</div>
+          <div>
+            <h2 id="profileName">Player</h2>
+            <p class="muted" id="profileLogin"></p>
+          </div>
+        </div>
+
+        <h3>Изменить имя и логин</h3>
+        <form id="profileForm" class="form-grid">
+          <label>Новое имя
+            <input id="newName" maxlength="24" required>
+          </label>
+
+          <label>Новый логин
+            <input id="newLogin" minlength="3" maxlength="24" required>
+          </label>
+
+          <label class="full">Текущий пароль
+            <input id="profileCurrentPassword" type="password" required>
+          </label>
+
+          <button class="primary full">Сохранить изменения</button>
+        </form>
+
+        <hr>
+
+        <h3>Сменить пароль</h3>
+        <form id="passwordForm" class="form-grid">
+          <label>Старый пароль
+            <input id="oldPassword" type="password" required>
+          </label>
+
+          <label>Новый пароль
+            <input id="newPassword" type="password" minlength="6" required>
+          </label>
+
+          <label class="full">Повтор нового пароля
+            <input id="repeatPassword" type="password" minlength="6" required>
+          </label>
+
+          <button class="primary full">Изменить пароль</button>
+        </form>
+
+        <p id="profileMessage" class="message"></p>
+      </div>
+    </section>
+
+    <!-- СТАТИСТИКА -->
+    <section id="statistics" class="page">
+      <p class="eyebrow">YOUR PROGRESS</p>
+      <h1>Статистика</h1>
+
+      <div class="stats-grid">
+        <article class="stat-card"><span>Уровень</span><strong id="statLevel">1</strong></article>
+        <article class="stat-card"><span>Всего XP</span><strong id="statXP">0</strong></article>
+        <article class="stat-card"><span>Верных ответов</span><strong id="statCorrect">0</strong></article>
+        <article class="stat-card"><span>Пройдено</span><strong id="statCompleted">0</strong></article>
+      </div>
+    </section>
+
+    <!-- МАГАЗИН -->
+    <section id="shop" class="page">
+      <p class="eyebrow">MARKETPLACE</p>
+      <h1>Магазин</h1>
+      <div id="shopGrid" class="shop-grid"></div>
+    </section>
+
+    <!-- ИГРА -->
+    <section id="game" class="page">
+      <div class="game-top">
+        <button class="secondary" id="backFromGame">← Назад</button>
+        <span id="gameProgress">Вопрос 1 / 10</span>
+        <span id="gameTimer">⏱ 00:00</span>
+      </div>
+
+      <div class="game-card">
+        <p class="eyebrow" id="gameSubject">ARITHMETIC</p>
+        <h1 id="question">2 + 2 = ?</h1>
+        <div id="answerOptions" class="answer-grid"></div>
+        <p id="answerMessage" class="message"></p>
+        <button id="nextQuestion" class="primary" disabled>Следующий вопрос →</button>
+      </div>
+      
+    </section>
+    
+<div class="promo-box">
+    <h3>🎁 Промокод</h3>
+    <p>Введи промокод и получи награду GOLD.</p>
+
+    <div class="promo-input">
+        <input id="promoInput" placeholder="Введи промокод">
+        <button onclick="activatePromo()">Активировать</button>
+    </div>
+
+    <p id="promoMessage"></p>
+</div>
+
+
+  </main>
+
+>
+
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
